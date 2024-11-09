@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Management App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0f7fa, #80deea);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #009688;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #009688;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00796b;
+        }
+
+        .leave-list {
+            margin-top: 20px;
+        }
+
+        .leave-item {
+            background: #f1f1f1;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Leave Management App</h1>
+    </header>
+
+    <div class="container">
+        <form id="leave-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="date">Leave Date:</label>
+            <input type="date" id="date" required>
+
+            <label for="reason">Reason:</label>
+            <select id="reason" required>
+                <option value="">Select reason</option>
+                <option value="sick">Sick</option>
+                <option value="personal">Personal</option>
+                <option value="vacation">Vacation</option>
+                <option value="emergency">Emergency</option>
+            </select>
+
+            <button type="submit">Request Leave</button>
+        </form>
+
+        <div class="leave-list" id="leave-list"></div>
+    </div>
+
+    <script>
+        const leaveForm = document.getElementById('leave-form');
+        const leaveList = document.getElementById('leave-list');
+
+        leaveForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('date').value;
+            const reason = document.getElementById('reason').value;
+
+            if (name && date && reason) {
+                addLeaveRequest(name, date, reason);
+                leaveForm.reset();
+            }
+        });
+
+        function addLeaveRequest(name, date, reason) {
+            const leaveItem = document.createElement('div');
+            leaveItem.className = 'leave-item';
+            leaveItem.innerHTML = `
+                <span>${name} - ${date} (${reason})</span>
+                <button onclick="removeLeaveRequest(this)">Remove</button>
+            `;
+            leaveList.appendChild(leaveItem);
+        }
+
+        function removeLeaveRequest(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
